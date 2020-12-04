@@ -3,8 +3,15 @@
  
  * Compile the program as   cc -o matmul matrixmul.c -pthread 
  
- * For 1 thread use   ./matmul 1    (no. of threads must be divisible by matrix size which is 2000)
- */
+ * For 2 threads use   ./matmul 2    (no. of threads must be divisible by matrix size which is 2000)
+ 
+ * Threads will run parallely for different rows of matrix 1. For eg:
+   Suppose matrix 1 and matrix 2 are of size 2000*2000 and 2 threads are being used then 
+   1st thread will use 1000 rows of matrix 1 and 2nd thread will use remaining 1000 rows of matrix 1
+   All the columns of matrix 1 are used by those threads for multiplication with matrix 2.
+
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/time.h>
