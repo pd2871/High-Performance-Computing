@@ -27,12 +27,12 @@ void mainThread()
     void *kernel_function_2();
     
     pthread_create(&ti, NULL, kernel_function_1,      
-    "$6$AS$8pcKmkYTPSlXF7rrQWymrzSf0msE12EZaavSOst1A3pwdO/k7JHyFhdi9Xg8JjkTJ8vWSrSx7IeYqoy3ZIvI8/");
+    "$6$AS$8pcKmkYTPSlXF7rrQWymrzSf0msE12EZaavSOst1A3pwdO/k7JHyFhdi9Xg8JjkTJ8vWSrSx7IeYqoy3ZIvI8/");  //passing encrypted password to crack as arguments
     pthread_create(&tii, NULL, kernel_function_2, 
-    "$6$AS$8pcKmkYTPSlXF7rrQWymrzSf0msE12EZaavSOst1A3pwdO/k7JHyFhdi9Xg8JjkTJ8vWSrSx7IeYqoy3ZIvI8/");
+    "$6$AS$8pcKmkYTPSlXF7rrQWymrzSf0msE12EZaavSOst1A3pwdO/k7JHyFhdi9Xg8JjkTJ8vWSrSx7IeYqoy3ZIvI8/");  //passing encrypted password to crack as agrguments
 
-    pthread_join(tii, NULL);
     pthread_join(ti, NULL);
+    pthread_join(tii, NULL);
 
 }
 
