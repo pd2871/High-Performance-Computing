@@ -39,6 +39,7 @@ void crack(char *salt_and_encrypted){
   for(p='A'; p<='Z'; p++){
     for(d='A'; d<='Z'; d++){
       for(l=0; l<=99; l++){
+      printf("%d",p);
         sprintf(plain, "%c%c%02d", p, d, l); 
         enc = (char *) crypt(plain, salt);
         count++;

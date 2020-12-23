@@ -1,5 +1,5 @@
 /**
- * Matrix (N*N) multiplication with multiple threads.
+ * Matrix (2000*2000) multiplication with multiple threads.
  
  * Compile the program as   cc -o pthreads_matmul pthreads_matmul.c -pthread 
  
