@@ -3,9 +3,9 @@
  
  * Compile the program as   cc -o pthreads_matmul pthreads_matmul.c -pthread 
  
- * For 2 threads use   ./pthreads_matmul 2    (no. of threads must be divisible by matrix size which is 2000)
+ * For 2 threads use   ./pthreads_matmul 2    (no. of threads must equally divide the rows of matrix A which is 2000)
  
- * Threads will run parallely for different rows of matrix 1. For eg:
+ * Threads will run parallely for different rows of matrix A. For eg:
    Suppose matrix A and matrix B are of size 2000*2000 and 2 threads are being used then 
    1st thread will use 1000 rows of matrix A and 2nd thread will use remaining 1000 rows of matrix A
    All the columns of matrix A are used by those threads for multiplication with matrix B.
@@ -60,12 +60,12 @@ void print_matrix( int **matrix, int row, int column )
 
 void * matrix_multiplication( void *arg )
 {
-  int i, j, k, tid, portion_size, row_start, row_end;
+  int i, j, k, tid, portion, row_start, row_end;
   
   tid = *(int *)(arg); // get the thread ID assigned sequentially.
-  portion_size = N / num_threads;   //making portions for matrix A
-  row_start = tid * portion_size;
-  row_end = (tid+1) * portion_size;
+  portion = N / num_threads;   //making portions for matrix A
+  row_start = tid * portion;
+  row_end = (tid+1) * portion;
 
   for (i=row_start; i<row_end; i++) { // hold row index of 'matrixA'
     for (j=0; j<M; j++) { // hold column index of 'matrixB'
@@ -110,6 +110,8 @@ int main(int argc, char *argv[])
   P = 2000;  //row for matrix B and column of matrix A
   M = 2000;  //Column for matrix B and C
 
+
+  //no. of threads must divide the rows of Matrix A
   if (N % num_threads != 0) {
     fprintf( stderr, "N = %d must be a multiple of num of threads = %d\n",
 	     N, num_threads );
