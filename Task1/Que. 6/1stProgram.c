@@ -1,6 +1,12 @@
 #include <pthread.h>
 #include <stdio.h>
 
+/*
+
+  compile using  cc -o 1stProgram 1stProgram.c -pthread
+
+*/
+
 int counter;
 
 static void * thread_func(void * _tn) { 

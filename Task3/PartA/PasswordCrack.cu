@@ -9,6 +9,14 @@
 //__device__ --> GPU function or variables
 //__host__ --> CPU function or variables
 
+/*
+
+   compile using   nvcc -o PasswordCrack PasswordCrack.cu
+   
+   use   ./PasswordCrack   to crack the encrypted password given below
+
+*/
+
 __device__ int count=0;     // A counter used to track the number of combinations explored so far
 
 __device__ char* CudaCrypt(char* rawPassword){
@@ -45,6 +53,7 @@ __device__ char* CudaCrypt(char* rawPassword){
 	return newPassword;
 }
 
+
 //it is device function which will compare two strings and returns 0 if both strings match
 __device__ int my_strcmp (const char * s1, const char * s2) {
     for(; *s1 == *s2; ++s1, ++s2)
@@ -54,13 +63,14 @@ __device__ int my_strcmp (const char * s1, const char * s2) {
 }
 
 
+
 //this device function will crack the encrypted password
-__global__ void crack(char * alphabet, char * numbers){
+__global__ void pwd_crack(char * alphabet, char * numbers){
 
     char *enc;
     char genRawPass[4];
     
-    char * myEncryptedPassword = (char *)"rnqgac4034";  //this is the encrypted password that will be searched using CUDA
+    char * myEncryptedPassword = (char *)"rnqgac4034";  //this is the encrypted password that will be cracked using CUDA
 
     
     //encrypting all the raw passwords
@@ -111,37 +121,35 @@ int time_difference(struct timespec *start, struct timespec *finish, long long i
 
 int main(int argc, char ** argv){
 
-struct timespec start, finish;
-long long int time_elapsed;
+    struct timespec start, finish;
+    long long int time_elapsed;
 
-char cpuAlphabet[26] = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'};
-char cpuNumbers[26] = {'0','1','2','3','4','5','6','7','8','9'};
+    char cpuAlphabet[26] = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'};
+    char cpuNumbers[26] = {'0','1','2','3','4','5','6','7','8','9'};
 
-char * gpuAlphabet;
-cudaMalloc( (void**) &gpuAlphabet, sizeof(char) * 26); 
-cudaMemcpy(gpuAlphabet, cpuAlphabet, sizeof(char) * 26, cudaMemcpyHostToDevice);
+    char * gpuAlphabet;
+    cudaMalloc( (void**) &gpuAlphabet, sizeof(char) * 26); 
+    cudaMemcpy(gpuAlphabet, cpuAlphabet, sizeof(char) * 26, cudaMemcpyHostToDevice);
 
-char * gpuNumbers;
-cudaMalloc( (void**) &gpuNumbers, sizeof(char) * 26); 
-cudaMemcpy(gpuNumbers, cpuNumbers, sizeof(char) * 26, cudaMemcpyHostToDevice);
+    char * gpuNumbers;
+    cudaMalloc( (void**) &gpuNumbers, sizeof(char) * 26); 
+    cudaMemcpy(gpuNumbers, cpuNumbers, sizeof(char) * 26, cudaMemcpyHostToDevice);
 
-clock_gettime(CLOCK_MONOTONIC, &start);
+    clock_gettime(CLOCK_MONOTONIC, &start);
 
-crack<<< dim3(26,26,1), dim3(10,10,1) >>>( gpuAlphabet, gpuNumbers);
-cudaDeviceSynchronize();
+    pwd_crack<<< dim3(26,26,1), dim3(10,10,1) >>>( gpuAlphabet, gpuNumbers);
+    cudaDeviceSynchronize();
 
-clock_gettime(CLOCK_MONOTONIC, &finish);
+    clock_gettime(CLOCK_MONOTONIC, &finish);
 
-time_difference(&start, &finish, &time_elapsed);
+    time_difference(&start, &finish, &time_elapsed);
 
-printf("Time elapsed was %lldns or %0.9lfs\n", time_elapsed,
+    printf("Time elapsed was %lldns or %0.9lfs\n", time_elapsed,
         (time_elapsed / 1.0e9));
-return 0;
+        
+    return 0;
 }
 
-
-
-//"rnqgac4034 - PD28"
 
 
 
