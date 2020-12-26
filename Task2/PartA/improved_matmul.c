@@ -1,6 +1,6 @@
 /*
 
-- Matrix multiplication without any threads
+- Matrix multiplication , Improved version
 
 - compile the program using cc -o improved_matmul improved_matmul.c 
 

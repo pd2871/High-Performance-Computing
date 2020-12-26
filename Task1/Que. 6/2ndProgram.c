@@ -1,10 +1,9 @@
+//2nd question
 #include <pthread.h>
 #include <stdio.h>
 
 /*
-
   compile using   cc -o 2ndProgram 2ndProgram.c -pthread
-
 */
 
 int counter;

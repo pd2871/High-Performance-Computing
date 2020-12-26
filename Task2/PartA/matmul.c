@@ -1,6 +1,6 @@
 /*
 
-- Matrix multiplication without any threads
+- Matrix multiplication, Normal version
 
 - compile the program using cc -o matmul matmul.c 
 

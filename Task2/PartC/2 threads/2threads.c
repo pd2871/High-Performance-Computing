@@ -1,10 +1,3 @@
-/*
-
-- Compile the program using   cc -o 2threads 2threads.c -lcrypt -pthread
-
-*/
-
-
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -12,6 +5,14 @@
 #include <unistd.h>
 #include <time.h>
 #include <pthread.h>
+
+/*
+
+   Compile using   cc -o 2threads 2threads.c -lcrypt -pthread
+
+*/
+
+//multithread password cracking
 
 pthread_mutex_t lock; 
 
